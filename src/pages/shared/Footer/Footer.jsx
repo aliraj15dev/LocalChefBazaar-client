@@ -36,7 +36,7 @@ const Footer = () => {
           </div>
         </div>
         <div>
-          <p>2025 GitHub, Inc.</p>
+          <p>@copywrite 2025 LocalChefBazaar, Inc.</p>
         </div>
       </div>
     </footer>
