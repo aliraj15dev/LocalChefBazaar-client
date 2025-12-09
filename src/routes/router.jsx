@@ -6,6 +6,8 @@ import Register from "../pages/auth/Register";
 import Meals from "../pages/meals/Meals";
 import MealDetails from "../pages/meals/MealDetails";
 import PrivateRoute from "./PrivateRoute";
+import OrderPage from "../pages/order/OrderPage";
+import MyOrders from "../pages/order/MyOrders";
 
 export const router = createBrowserRouter([
   {
@@ -17,6 +19,9 @@ export const router = createBrowserRouter([
         {path:'register', Component:Register},
         {path:'meals', Component:Meals},
         {path:'MealDetails/:id', element:<PrivateRoute><MealDetails/></PrivateRoute>},
+        {path:'my-orders', element:<PrivateRoute><MyOrders/></PrivateRoute>},
+        {path:'order/:id', element:<PrivateRoute><OrderPage/></PrivateRoute>},
+
 
     ],
   },

@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { FaStar } from "react-icons/fa";
 import Swal from "sweetalert2";
 
 const MealDetails = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const [meal, setMeal] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const [reviews, setReviews] = useState([]);
 
   const [reviewData, setReviewData] = useState({
@@ -23,10 +23,6 @@ const MealDetails = () => {
       .then(res => res.json())
       .then(data => {
         setMeal(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error("Meal fetch error:", err);
         setLoading(false);
       });
   }, [id]);
@@ -101,24 +97,16 @@ const MealDetails = () => {
     );
   }
 
-  if (!meal) {
-    return <div className="text-center py-20 text-red-500">Meal not found!</div>;
-  }
-
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 space-y-12">
 
       <div className="flex flex-col md:flex-row gap-8 bg-white shadow-lg p-6 rounded-lg">
         <div className="md:w-1/2">
-          <img
-            src={meal.foodImage}
-            alt={meal.foodName}
-            className="w-full h-64 object-cover rounded-lg"
-          />
+          <img src={meal.foodImage} className="w-full h-64 object-cover rounded-lg" />
         </div>
 
         <div className="md:w-1/2 space-y-3">
-          <h2 className="text-3xl font-bold text-secondary">{meal.foodName}</h2>
+          <h2 className="text-3xl font-bold">{meal.foodName}</h2>
           <p>👨‍🍳 Chef: {meal.chefName} (ID: {meal.chefId})</p>
           <p className="text-lg font-semibold">Price: ৳{meal.price}</p>
 
@@ -131,7 +119,12 @@ const MealDetails = () => {
           <p><b>Estimated Delivery:</b> {meal.estimatedDeliveryTime}</p>
           <p><b>Chef Experience:</b> {meal.chefExperience}</p>
 
-          <button className="btn btn-primary w-full mt-3">Order Now</button>
+          <button
+            onClick={() => navigate(`/order/${meal._id}`, { state: meal })}
+            className="btn btn-primary w-full mt-3"
+          >
+            Order Now
+          </button>
 
           <button onClick={handleFavorite} className="btn btn-outline w-full mt-2">
             ❤️ Add to Favorite
@@ -142,69 +135,44 @@ const MealDetails = () => {
       <div className="bg-white shadow-lg p-6 rounded-lg">
         <h3 className="text-2xl font-bold mb-4">Customer Reviews</h3>
 
-        <div className="space-y-4 mb-8">
-          {reviews.map((review, index) => (
-            <div key={index} className="border p-4 rounded">
-              <div className="flex items-center gap-3">
-                <img src={review.reviewerImage} className="w-10 h-10 rounded-full" />
-                <div>
-                  <p className="font-bold">{review.reviewerName}</p>
-                  <p className="text-sm text-gray-500">
-                    {new Date(review.date).toLocaleDateString()}
-                  </p>
-                </div>
+        {reviews.map((review, index) => (
+          <div key={index} className="border p-4 rounded mb-3">
+            <div className="flex items-center gap-3">
+              <img src={review.reviewerImage} className="w-10 h-10 rounded-full" />
+              <div>
+                <p className="font-bold">{review.reviewerName}</p>
+                <p className="text-sm text-gray-500">
+                  {new Date(review.date).toLocaleDateString()}
+                </p>
               </div>
-              <p className="mt-2 text-yellow-500">⭐ {review.rating}</p>
-              <p className="mt-1">{review.comment}</p>
             </div>
-          ))}
-        </div>
+            <p className="mt-2 text-yellow-500">⭐ {review.rating}</p>
+            <p>{review.comment}</p>
+          </div>
+        ))}
 
-        <form onSubmit={handleReviewSubmit} className="space-y-3">
-          <input
-            type="text"
-            placeholder="Your Name"
-            className="input input-bordered w-full"
+        <form onSubmit={handleReviewSubmit} className="space-y-3 mt-6">
+          <input className="input input-bordered w-full" placeholder="Your Name"
             value={reviewData.reviewerName}
-            onChange={(e) => setReviewData({ ...reviewData, reviewerName: e.target.value })}
-            required
-          />
+            onChange={(e) => setReviewData({ ...reviewData, reviewerName: e.target.value })} required />
 
-          <input
-            type="text"
-            placeholder="Your Image URL"
-            className="input input-bordered w-full"
+          <input className="input input-bordered w-full" placeholder="Your Image URL"
             value={reviewData.reviewerImage}
-            onChange={(e) => setReviewData({ ...reviewData, reviewerImage: e.target.value })}
-            required
-          />
+            onChange={(e) => setReviewData({ ...reviewData, reviewerImage: e.target.value })} required />
 
-          <select
-            className="select select-bordered w-full"
+          <select className="select select-bordered w-full"
             value={reviewData.rating}
-            onChange={(e) => setReviewData({ ...reviewData, rating: e.target.value })}
-          >
-            <option>5</option>
-            <option>4</option>
-            <option>3</option>
-            <option>2</option>
-            <option>1</option>
+            onChange={(e) => setReviewData({ ...reviewData, rating: e.target.value })}>
+            <option>5</option><option>4</option><option>3</option><option>2</option><option>1</option>
           </select>
 
-          <textarea
-            className="textarea textarea-bordered w-full"
-            placeholder="Write your review..."
+          <textarea className="textarea textarea-bordered w-full" placeholder="Write your review..."
             value={reviewData.comment}
-            onChange={(e) => setReviewData({ ...reviewData, comment: e.target.value })}
-            required
-          />
+            onChange={(e) => setReviewData({ ...reviewData, comment: e.target.value })} required />
 
-          <button type="submit" className="btn btn-primary w-full">
-            Give Review
-          </button>
+          <button type="submit" className="btn btn-primary w-full">Give Review</button>
         </form>
       </div>
-
     </div>
   );
 };
