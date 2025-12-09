@@ -3,6 +3,8 @@ import Root from "../layouts/Root";
 import Home from "../pages/Home/Home";
 import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
+import Meals from "../pages/meals/Meals";
+import MealDetails from "../pages/meals/MealDetails";
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +14,8 @@ export const router = createBrowserRouter([
         { index: true, Component: Home },
         {path:'login', Component:Login},
         {path:'register', Component:Register},
+        {path:'meals', Component:Meals},
+        {path:'MealDetails/:id', Component:MealDetails},
 
     ],
   },

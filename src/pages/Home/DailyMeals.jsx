@@ -39,9 +39,9 @@ const DailyMeals = () => {
             Freshly cooked homemade meals by our talented local chefs
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {meals.map((meal) => (
+          {meals.slice(0, 6).map((meal) => (
             <div key={meal._id} className="card bg-white shadow-lg hover:shadow-2xl transition">
 
               <figure className="h-52 overflow-hidden">
@@ -77,7 +77,7 @@ const DailyMeals = () => {
 
                 <div className="mt-4">
                   <Link
-                    to={`/meal/${meal._id}`}
+                    to={`/MealDetails/${meal._id}`}
                     className="btn btn-primary btn-sm w-full"
                   >
                     See Details
