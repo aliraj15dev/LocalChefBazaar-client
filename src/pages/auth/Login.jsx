@@ -22,7 +22,6 @@ const Login = () => {
   } = useForm();
 
   const handleLogin = (data) => {
-    console.log("Login", data);
     signInUser(data.email, data.password)
       .then((result) => {
         navigate(location?.state || "/");

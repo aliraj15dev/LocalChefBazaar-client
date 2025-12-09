@@ -27,6 +27,10 @@ const AuthProvider = ({children}) => {
         return signOut(auth)
     }
 
+    const updateUserProfile=(profile)=>{
+      return updateProfile(auth.currentUser, profile)
+    }
+
     const handleProfileUpdate = (name, photo) =>{
         const profile = {
             displayName: name,
@@ -48,7 +52,7 @@ const AuthProvider = ({children}) => {
     },[])
 
     const authInfo = {
-        user, setUser, handleProfileUpdate, createUser, signInUser,logoutUser, loading, setLoading, forgotPassword
+        user, setUser, handleProfileUpdate, createUser, signInUser,logoutUser, loading, setLoading, forgotPassword,updateUserProfile
     }
 
     return (

@@ -12,7 +12,10 @@ const Navbar = () => {
       <li>
         <NavLink>Meals</NavLink>
       </li>
+      <li>{user && <NavLink>Dashboard</NavLink>}</li>
     </>
+
+
   );
 
   const handleLogOut = () => {
@@ -22,8 +25,8 @@ const Navbar = () => {
   };
 
   return (
-    <nav>
-      <div className="navbar bg-base-100 shadow-sm">
+    <nav className="bg-base-100 shadow-sm">
+      <div className="navbar max-w-9/10 mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost md:hidden">
@@ -50,7 +53,7 @@ const Navbar = () => {
               {links}
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">LCB</a>
+          <Link to='/' className="btn btn-ghost text-xl">LCB</Link>
         </div>
         <div className="navbar-center hidden md:flex">
           <ul className="menu menu-horizontal px-1">{links}</ul>
@@ -62,24 +65,18 @@ const Navbar = () => {
             <div className="flex items-center gap-2">
               <div className="dropdown dropdown-end">
                 <div tabIndex={0} role="button" className="m-1">
-                  some
-                  {/* {user?.photoURL ? (
+                  {user?.photoURL ? (
                     <img
                       className="rounded-full w-10 cursor-pointer"
                       src={user?.photoURL}
                       alt="User"
                     />
-                  ) : (
-                    // <span className="loading loading-spinner"></span>
-                    ''
-                  )} */}
+                  ) :'Profile'}
                 </div>
                 <div
                   tabIndex="-1"
                   className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm space-y-3"
                 >
-                  <h3 className="text-xl">{user.displayName}</h3>
-                  <p>{user.email}</p>
                   <button
                     onClick={handleLogOut}
                     className="btn text-2xl bg-linear-to-b from-green-400 to-green-800 text-white"

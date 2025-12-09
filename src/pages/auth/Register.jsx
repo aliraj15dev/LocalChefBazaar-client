@@ -25,6 +25,7 @@ const Register = () => {
 
   const handleRegister = (data) => {
     const profileImg = data.photourl[0];
+    console.log(data.photourl)
 
     createUser(data.email, data.password)
       .then((result) => {
@@ -44,11 +45,11 @@ const Register = () => {
           //* update the profile
           const updateProfile = {
             displayName: data.name,
-            photoURL: res.data.data.display_url,
+            photoURL: res.data.data.display_url
           };
           updateUserProfile(updateProfile)
             .then(() => {
-              console.log("user profile updated");
+              console.log("user profile updated", updateProfile);
             })
             .catch((error) => {
               console.log(error);
