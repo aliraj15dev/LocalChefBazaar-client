@@ -42,7 +42,7 @@ const OrderPage = () => {
           .then(res => res.json())
           .then(() => {
             Swal.fire("Success!", "Order placed successfully!", "success")
-             .then(() => navigate("/my-orders"));
+             .then(() => navigate("/orders"));
             setQuantity(1);
             setAddress("");
           });

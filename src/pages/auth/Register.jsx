@@ -4,11 +4,13 @@ import { use, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Register = () => {
   const { createUser, updateUserProfile } = use(AuthContext);
   const location = useLocation();
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure()
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -28,7 +30,7 @@ const Register = () => {
     console.log(data.photourl)
 
     createUser(data.email, data.password)
-      .then((result) => {
+      .then(() => {
         navigate(location?.state || "/");
         //* 1. store the image
         const formData = new FormData();
@@ -40,7 +42,15 @@ const Register = () => {
         }`;
 
         axios.post(image_API_URL, formData).then((res) => {
-          console.log("after image upload", res.data.data.display_url);
+
+          const userInfo = {
+            email:data.email,
+            displayName: data.name,
+            photoURL: res.data.data.display_url
+          }
+
+        axiosSecure.post('/users', userInfo)
+        .then()
 
           //* update the profile
           const updateProfile = {
@@ -48,15 +58,12 @@ const Register = () => {
             photoURL: res.data.data.display_url
           };
           updateUserProfile(updateProfile)
-            .then(() => {
-              console.log("user profile updated", updateProfile);
-            })
+            .then()
             .catch((error) => {
               console.log(error);
             });
         });
 
-        console.log(result.user);
       })
       .catch((error) => {
         console.log(error);

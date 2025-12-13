@@ -10,6 +10,7 @@ import OrderPage from "../pages/order/OrderPage";
 import DashBoard from "../layouts/DashBoard";
 import Orders from "../pages/order/Orders";
 import MyOrders from "../pages/dashboard/MyOrders";
+import Profile from "../pages/dashboard/Profile";
 
 export const router = createBrowserRouter([
   {
@@ -31,7 +32,8 @@ export const router = createBrowserRouter([
     path: "dashboard",
     element: <PrivateRoute><DashBoard/></PrivateRoute>,
     children: [
-      {path:'my-orders', Component:MyOrders}
+      {path:'my-orders', Component:MyOrders},
+      {path:'profile', Component:Profile},
 
 
     ],

@@ -18,7 +18,7 @@ const DailyMeals = () => {
         console.error("Daily meals fetch error:", err);
         setLoading(false);
       });
-  }, []);
+  }, [axiosSecure]);
 
   if (loading) {
     return (

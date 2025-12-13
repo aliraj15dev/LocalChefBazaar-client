@@ -4,8 +4,10 @@ import { FiShoppingCart } from "react-icons/fi";
 import { LuSettings2 } from "react-icons/lu";
 import { MdOutlineHome } from "react-icons/md";
 import { Link, Outlet } from "react-router";
+import useAuth from "../hooks/useAuth";
 
 const DashBoard = () => {
+  const {user} = useAuth()
   return (
     <div>
       <div className="drawer lg:drawer-open">
@@ -37,7 +39,21 @@ const DashBoard = () => {
               </label>
               <div className="px-4">LocalChefBazaar Dashboard</div>
             </div>
-            <div className="px-4">Profile</div>
+            <div className="px-4">
+              {user?.photoURL ? (
+                    <img
+                      className="rounded-full w-10 cursor-pointer"
+                      src={user?.photoURL}
+                      alt="User"
+                    />
+                  ) : <Link to='profile'
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Settings"
+                >
+                  {/* profile icon */}
+                  <CgProfile className="my-1.5 inline-block size-8"/>
+                </Link>}
+            </div>
           </nav>
           {/* Page content here */}
           <Outlet />
@@ -78,7 +94,7 @@ const DashBoard = () => {
 
               {/* List item */}
               <li>
-                <Link
+                <Link to='profile'
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Settings"
                 >

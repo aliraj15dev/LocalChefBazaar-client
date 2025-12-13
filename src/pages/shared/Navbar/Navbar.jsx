@@ -74,7 +74,7 @@ const Navbar = () => {
                       src={user?.photoURL}
                       alt="User"
                     />
-                  ) :'Profile'}
+                  ) :  <span className="loading loading-spinner text-primary"></span>}
                 </div>
                 <div
                   tabIndex="-1"
