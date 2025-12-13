@@ -7,8 +7,9 @@ import Meals from "../pages/meals/Meals";
 import MealDetails from "../pages/meals/MealDetails";
 import PrivateRoute from "./PrivateRoute";
 import OrderPage from "../pages/order/OrderPage";
-import MyOrders from "../pages/order/MyOrders";
 import DashBoard from "../layouts/DashBoard";
+import Orders from "../pages/order/Orders";
+import MyOrders from "../pages/dashboard/MyOrders";
 
 export const router = createBrowserRouter([
   {
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
         {path:'register', Component:Register},
         {path:'meals', Component:Meals},
         {path:'MealDetails/:id', element:<PrivateRoute><MealDetails/></PrivateRoute>},
-        {path:'my-orders', element:<PrivateRoute><MyOrders/></PrivateRoute>},
+        {path:'orders', element:<PrivateRoute><Orders/></PrivateRoute>},
         {path:'order/:id', element:<PrivateRoute><OrderPage/></PrivateRoute>},
 
 
@@ -30,7 +31,7 @@ export const router = createBrowserRouter([
     path: "dashboard",
     element: <PrivateRoute><DashBoard/></PrivateRoute>,
     children: [
-      {path:'dashboard/my-order', Component:MyOrders}
+      {path:'my-orders', Component:MyOrders}
 
 
     ],

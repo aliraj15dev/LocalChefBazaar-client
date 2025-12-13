@@ -35,13 +35,12 @@ const DashBoard = () => {
                   <path d="M14 10l2 2l-2 2"></path>
                 </svg>
               </label>
-              <div className="px-4">LocalChefBazaar</div>
+              <div className="px-4">LocalChefBazaar Dashboard</div>
             </div>
             <div className="px-4">Profile</div>
           </nav>
           {/* Page content here */}
           <Outlet />
-          <div className="p-4">Page Content</div>
         </div>
 
         <div className="drawer-side is-drawer-close:overflow-visible">
@@ -55,7 +54,7 @@ const DashBoard = () => {
             <ul className="menu w-full grow">
               {/* List item */}
               <li>
-                <Link
+                <Link to='/'
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Homepage"
                 >
@@ -67,7 +66,7 @@ const DashBoard = () => {
 
               {/* List item */}
               <li>
-                <Link to='/dashboard/my-order'
+                <Link to='/dashboard/my-orders'
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Homepage"
                 >

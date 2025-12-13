@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
-import axios from "axios";
 import { FaStar } from "react-icons/fa";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const DailyMeals = () => {
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure()
 
   useEffect(() => {
-    axios.get("http://localhost:3000/dailymeals")
+    axiosSecure.get("dailymeals")
       .then(res => {
         setMeals(res.data);
         setLoading(false);

@@ -1,29 +1,44 @@
+import { useQuery } from "@tanstack/react-query";
+import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
 
+
 const MyOrders = () => {
+  const { user } = useAuth();
+  const axiosSecure = useAxiosSecure();
+
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetch("http://localhost:3000/orders")
-      .then(res => res.json())
-      .then(data => {
-        setOrders(data);
-        setLoading(false);
-      });
-  }, []);
+  const { data: parcels = [] } = useQuery({
+    queryKey: ["my-parcels", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/orders?email=${user.email}`);
+      return res.data;
+    },
+  });
 
-  if (loading) {
-    return (
-      <div className="text-center py-20">
-        <span className="loading loading-spinner loading-lg"></span>
-      </div>
-    );
-  }
+  useEffect(() => {
+      axiosSecure.get("orders")
+        .then(res => res.json())
+        .then(data => {
+          setOrders(data);
+          setLoading(false);
+        });
+    }, [axiosSecure]);
+
+    if (loading) {
+      return (
+        <div className="text-center py-20">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      );
+    }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-6 text-center">📦 My Orders</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center">📦 My Orders : {parcels.length}</h2>
 
       {orders.length === 0 ? (
         <p className="text-center text-gray-500">No orders found</p>

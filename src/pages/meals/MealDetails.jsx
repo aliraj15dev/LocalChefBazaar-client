@@ -19,6 +19,7 @@ const MealDetails = () => {
   });
 
   useEffect(() => {
+
     fetch(`http://localhost:3000/dailymeals/${id}`)
       .then(res => res.json())
       .then(data => {
