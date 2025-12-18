@@ -11,6 +11,7 @@ import DashBoard from "../layouts/DashBoard";
 import Orders from "../pages/order/Orders";
 import MyOrders from "../pages/dashboard/MyOrders";
 import Profile from "../pages/dashboard/Profile";
+import ErrorPage from "../components/ErrorPage";
 
 export const router = createBrowserRouter([
   {
@@ -37,5 +38,6 @@ export const router = createBrowserRouter([
 
 
     ],
-  }
+  },
+  {path:'*', Component:ErrorPage}
 ]);
