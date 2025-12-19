@@ -6,6 +6,7 @@ import useAuth from "../hooks/useAuth";
 import { FaUsers } from "react-icons/fa";
 import useRole from "../hooks/useRole";
 import { DiGitPullRequest } from "react-icons/di";
+import { FcStatistics } from "react-icons/fc";
 
 const DashBoard = () => {
   const { role } = useRole();
@@ -127,6 +128,20 @@ const DashBoard = () => {
                       <DiGitPullRequest className="my-1.5 inline-block size-5" />
                       <span className="is-drawer-close:hidden">
                         Manage Request
+                      </span>
+                    </Link>
+                  </li>
+                  {/* List item */}
+                  <li>
+                    <Link
+                      to="/dashboard/platform-statistics"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Settings"
+                    >
+                      {/* Manage-request icon */}
+                      <FcStatistics className="my-1.5 inline-block size-5" />
+                      <span className="is-drawer-close:hidden">
+                        Platform Statistics
                       </span>
                     </Link>
                   </li>

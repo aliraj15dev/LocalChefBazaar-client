@@ -1,19 +1,35 @@
 import Swal from "sweetalert2";
 import useAuth from "../../hooks/useAuth";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router";
 
 const Profile = () => {
   const { user } = useAuth();
+  const axiosSecure = useAxiosSecure()
+
+  const {data: users = [] } = useQuery({
+    queryKey: ["users"],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/users`);
+      return res.data;
+    },
+  });
+
+  const currentUser = users.find(
+  u => u.email === user?.email
+);
 
   const {
-    _id,
-    displayName,
-    email,
-    photoURL,
-    address,
-    role,
-    status,
-    chefId,
-  } = user;
+  _id,
+  displayName,
+  email,
+  photoURL,
+  role,
+  status,
+  address,
+  chefId
+} = currentUser || {};
 
   const handleRoleRequest = (type) => {
     const requestData = {
@@ -64,7 +80,7 @@ const Profile = () => {
           <p>
             <b>Status:</b>
             <span className={`ml-2 badge ${status === "active" ? "badge-success" : "badge-error"}`}>
-              {status}
+              {status || 'Active'}
             </span>
           </p>
 
@@ -77,29 +93,29 @@ const Profile = () => {
         <div className="flex gap-3 pt-4">
           {role === "user" && (
             <>
-              <button
+              <Link
                 onClick={() => handleRoleRequest("chef")}
                 className="btn btn-primary"
               >
                 Be a Chef
-              </button>
+              </Link>
 
-              <button
+              <Link
                 onClick={() => handleRoleRequest("admin")}
                 className="btn btn-outline"
               >
                 Be an Admin
-              </button>
+              </Link>
             </>
           )}
 
           {role === "chef" && (
-            <button
+            <Link
               onClick={() => handleRoleRequest("admin")}
               className="btn btn-outline"
             >
               Be an Admin
-            </button>
+            </Link>
           )}
         </div>
 
