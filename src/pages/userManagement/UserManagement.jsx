@@ -90,14 +90,14 @@ const UserManagement = () => {
                   {user.role === "Admin" ? (
                     <button
                       onClick={() => handleMakeUser(user)}
-                      className="btn"
+                      className="btn bg-red-400"
                     >
                       <FiShieldOff />
                     </button>
                   ) : (
                     <button
                       onClick={() => handleMakeAdmin(user)}
-                      className="btn"
+                      className="btn bg-green-500"
                     >
                       <FaUserShield />
                     </button>

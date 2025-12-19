@@ -1,14 +1,15 @@
-import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { FiShoppingCart } from "react-icons/fi";
-import { LuSettings2 } from "react-icons/lu";
-import { MdOutlineHome } from "react-icons/md";
+import { MdCreateNewFolder, MdNoMeals, MdOutlineHome } from "react-icons/md";
 import { Link, Outlet } from "react-router";
 import useAuth from "../hooks/useAuth";
 import { FaUsers } from "react-icons/fa";
+import useRole from "../hooks/useRole";
+import { DiGitPullRequest } from "react-icons/di";
 
 const DashBoard = () => {
-  const {user} = useAuth()
+  const { role } = useRole();
+  const { user } = useAuth();
   return (
     <div>
       <div className="drawer lg:drawer-open">
@@ -42,18 +43,21 @@ const DashBoard = () => {
             </div>
             <div className="px-4">
               {user?.photoURL ? (
-                    <img
-                      src={user?.photoURL}
-                      alt="user"
-                      className="w-10 h-10 rounded-full border cursor-pointer"
-                    />
-                  ) : <Link to='/profile'
+                <img
+                  src={user?.photoURL}
+                  alt="user"
+                  className="w-10 h-10 rounded-full border cursor-pointer"
+                />
+              ) : (
+                <Link
+                  to="/profile"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Settings"
                 >
                   {/* profile icon */}
-                  <CgProfile className="my-1.5 inline-block size-8"/>
-                </Link>}
+                  <CgProfile className="my-1.5 inline-block size-8" />
+                </Link>
+              )}
             </div>
           </nav>
           {/* Page content here */}
@@ -71,63 +75,159 @@ const DashBoard = () => {
             <ul className="menu w-full grow">
               {/* List item */}
               <li>
-                <Link to='/'
+                <Link
+                  to="/"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Homepage"
                 >
                   {/* Home icon */}
-                  <MdOutlineHome className="my-1.5 inline-block size-6"/>
+                  <MdOutlineHome className="my-1.5 inline-block size-6" />
                   <span className="is-drawer-close:hidden">Homepage</span>
                 </Link>
               </li>
 
               {/* List item */}
               <li>
-                <Link to='/dashboard/my-orders'
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Homepage"
-                >
-                  {/* Order icon */}
-                  <FiShoppingCart className="my-1.5 inline-block size-5"/>
-                  <span className="is-drawer-close:hidden">My Order</span>
-                </Link>
-              </li>
-
-              {/* List item */}
-              <li>
-                <Link to='profile'
+                <Link
+                  to="profile"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Settings"
                 >
                   {/* profile icon */}
-                  <CgProfile className="my-1.5 inline-block size-5"/>
+                  <CgProfile className="my-1.5 inline-block size-5" />
                   <span className="is-drawer-close:hidden">Profile</span>
                 </Link>
               </li>
 
-              {/* List item */}
-              <li>
-                <Link to='user-management'
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Settings"
-                >
-                  {/* UserManagement icon */}
-                  <FaUsers className="my-1.5 inline-block size-5"/>
-                  <span className="is-drawer-close:hidden">User-Management</span>
-                </Link>
-              </li>
+              {role === "Admin" && (
+                <>
+                  {/* List item */}
+                  <li>
+                    <Link
+                      to="/dashboard/user-management"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Settings"
+                    >
+                      {/* UserManagement icon */}
+                      <FaUsers className="my-1.5 inline-block size-5" />
+                      <span className="is-drawer-close:hidden">
+                        User-Management
+                      </span>
+                    </Link>
+                  </li>
 
-              {/* List item */}
-              <li>
-                <Link
-                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Settings"
-                >
-                  {/* Settings icon */}
-                    <LuSettings2 className="my-1.5 inline-block size-5"/>
-                  <span className="is-drawer-close:hidden">Settings</span>
-                </Link>
-              </li>
+                  {/* List item */}
+                  <li>
+                    <Link
+                      to="/dashboard/manage-request"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Settings"
+                    >
+                      {/* Manage-request icon */}
+                      <DiGitPullRequest className="my-1.5 inline-block size-5" />
+                      <span className="is-drawer-close:hidden">
+                        Manage Request
+                      </span>
+                    </Link>
+                  </li>
+                </>
+              )}
+
+              {role === "user" && (
+                <>
+                  {/* List item */}
+                  <li>
+                    <Link
+                      to="/dashboard/my-orders"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Homepage"
+                    >
+                      {/* Order icon */}
+                      <FiShoppingCart className="my-1.5 inline-block size-5" />
+                      <span className="is-drawer-close:hidden">My Order</span>
+                    </Link>
+                  </li>
+
+                  {/* List item */}
+                  <li>
+                    <Link
+                      to="/dashboard/my-review"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Settings"
+                    >
+                      {/* UserManagement icon */}
+                      <FaUsers className="my-1.5 inline-block size-5" />
+                      <span className="is-drawer-close:hidden">
+                        My Review
+                      </span>
+                    </Link>
+                  </li>
+
+                  {/* List item */}
+                  <li>
+                    <Link
+                      to="/dashboard/favourite-meal"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Settings"
+                    >
+                      {/* Manage-request icon */}
+                      <DiGitPullRequest className="my-1.5 inline-block size-5" />
+                      <span className="is-drawer-close:hidden">
+                        Fevourite Meal
+                      </span>
+                    </Link>
+                  </li>
+                </>
+              )}
+
+              {role === "chef" && (
+                <>
+                  {/* List item */}
+                  <li>
+                    <Link
+                      to="/dashboard/create-meal"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Settings"
+                    >
+                      {/* create-meal icon */}
+                      <MdCreateNewFolder className="my-1.5 inline-block size-5" />
+                      <span className="is-drawer-close:hidden">
+                        Create Meal
+                      </span>
+                    </Link>
+                  </li>
+
+                  {/* List item */}
+                  <li>
+                    <Link
+                      to="/dashboard/my-meals"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Settings"
+                    >
+                      {/* Manage-request icon */}
+                      <MdNoMeals className="my-1.5 inline-block size-5" />
+                      <span className="is-drawer-close:hidden">
+                        My Meals
+                      </span>
+                    </Link>
+                  </li>
+
+                  {/* List item */}
+                  <li>
+                    <Link
+                      to="/dashboard/order-request"
+                      className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                      data-tip="Settings"
+                    >
+                      {/* Manage-request icon */}
+                      <DiGitPullRequest className="my-1.5 inline-block size-5" />
+                      <span className="is-drawer-close:hidden">
+                        Order Request
+                      </span>
+                    </Link>
+                  </li>
+                </>
+              )}
             </ul>
           </div>
         </div>

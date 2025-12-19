@@ -13,6 +13,7 @@ import MyOrders from "../pages/dashboard/MyOrders";
 import Profile from "../pages/dashboard/Profile";
 import ErrorPage from "../components/ErrorPage";
 import UserManagement from "../pages/userManagement/UserManagement";
+import AdminRoute from "./AdminRoute";
 
 export const router = createBrowserRouter([
   {
@@ -36,7 +37,7 @@ export const router = createBrowserRouter([
     children: [
       {path:'my-orders', Component:MyOrders},
       {path:'profile', Component:Profile},
-      {path:'user-management', Component:UserManagement},
+      {path:'user-management', element:<AdminRoute><UserManagement/></AdminRoute>},
 
 
     ],
