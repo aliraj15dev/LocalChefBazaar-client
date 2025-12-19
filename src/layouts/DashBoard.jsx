@@ -5,6 +5,7 @@ import { LuSettings2 } from "react-icons/lu";
 import { MdOutlineHome } from "react-icons/md";
 import { Link, Outlet } from "react-router";
 import useAuth from "../hooks/useAuth";
+import { FaUsers } from "react-icons/fa";
 
 const DashBoard = () => {
   const {user} = useAuth()
@@ -42,11 +43,11 @@ const DashBoard = () => {
             <div className="px-4">
               {user?.photoURL ? (
                     <img
-                      className="rounded-full w-10 cursor-pointer"
                       src={user?.photoURL}
-                      alt="User"
+                      alt="user"
+                      className="w-10 h-10 rounded-full border cursor-pointer"
                     />
-                  ) : <Link to='profile'
+                  ) : <Link to='/profile'
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
                   data-tip="Settings"
                 >
@@ -101,6 +102,18 @@ const DashBoard = () => {
                   {/* profile icon */}
                   <CgProfile className="my-1.5 inline-block size-5"/>
                   <span className="is-drawer-close:hidden">Profile</span>
+                </Link>
+              </li>
+
+              {/* List item */}
+              <li>
+                <Link to='user-management'
+                  className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
+                  data-tip="Settings"
+                >
+                  {/* UserManagement icon */}
+                  <FaUsers className="my-1.5 inline-block size-5"/>
+                  <span className="is-drawer-close:hidden">User-Management</span>
                 </Link>
               </li>
 

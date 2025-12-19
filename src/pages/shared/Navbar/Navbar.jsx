@@ -7,7 +7,7 @@ const Navbar = () => {
   const links = (
     <>
       <li>
-        <NavLink to='/'>Home</NavLink>
+        <NavLink to="/">Home</NavLink>
       </li>
       <li>
         <NavLink to="/meals">Meals</NavLink>
@@ -17,8 +17,6 @@ const Navbar = () => {
       </li>
       <li>{user && <NavLink to="/dashboard">Dashboard</NavLink>}</li>
     </>
-
-
   );
 
   const handleLogOut = () => {
@@ -56,7 +54,9 @@ const Navbar = () => {
               {links}
             </ul>
           </div>
-          <Link to='/' className="btn btn-ghost text-xl">LCB</Link>
+          <Link to="/" className="btn btn-ghost text-xl">
+            LCB
+          </Link>
         </div>
         <div className="navbar-center hidden md:flex">
           <ul className="menu menu-horizontal px-1">{links}</ul>
@@ -70,11 +70,13 @@ const Navbar = () => {
                 <div tabIndex={0} role="button" className="m-1">
                   {user?.photoURL ? (
                     <img
-                      className="rounded-full w-10 cursor-pointer"
                       src={user?.photoURL}
-                      alt="User"
+                      alt="user"
+                      className="w-10 h-10 rounded-full border cursor-pointer"
                     />
-                  ) :  <span className="loading loading-spinner text-primary"></span>}
+                  ) : (
+                    <span className="loading loading-spinner text-primary"></span>
+                  )}
                 </div>
                 <div
                   tabIndex="-1"
