@@ -53,7 +53,7 @@ const DashBoard = () => {
                 <Link
                   to="/profile"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Settings"
+                  data-tip="Profile"
                 >
                   {/* profile icon */}
                   <CgProfile className="my-1.5 inline-block size-8" />
@@ -92,7 +92,7 @@ const DashBoard = () => {
                 <Link
                   to="profile"
                   className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                  data-tip="Settings"
+                  data-tip="Profile"
                 >
                   {/* profile icon */}
                   <CgProfile className="my-1.5 inline-block size-5" />
@@ -107,7 +107,7 @@ const DashBoard = () => {
                     <Link
                       to="/dashboard/user-management"
                       className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="Settings"
+                      data-tip="User Management"
                     >
                       {/* UserManagement icon */}
                       <FaUsers className="my-1.5 inline-block size-5" />
@@ -122,7 +122,7 @@ const DashBoard = () => {
                     <Link
                       to="/dashboard/manage-request"
                       className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="Settings"
+                      data-tip="Manage Request"
                     >
                       {/* Manage-request icon */}
                       <DiGitPullRequest className="my-1.5 inline-block size-5" />
@@ -136,7 +136,7 @@ const DashBoard = () => {
                     <Link
                       to="/dashboard/platform-statistics"
                       className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="Settings"
+                      data-tip="Platform Statistics"
                     >
                       {/* Manage-request icon */}
                       <FcStatistics className="my-1.5 inline-block size-5" />
@@ -155,7 +155,7 @@ const DashBoard = () => {
                     <Link
                       to="/dashboard/my-orders"
                       className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="Homepage"
+                      data-tip="My Order"
                     >
                       {/* Order icon */}
                       <FiShoppingCart className="my-1.5 inline-block size-5" />
@@ -168,7 +168,7 @@ const DashBoard = () => {
                     <Link
                       to="/dashboard/my-review"
                       className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="Settings"
+                      data-tip="My Review"
                     >
                       {/* UserManagement icon */}
                       <FaUsers className="my-1.5 inline-block size-5" />
@@ -183,7 +183,7 @@ const DashBoard = () => {
                     <Link
                       to="/dashboard/favourite-meal"
                       className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="Settings"
+                      data-tip="Favourite Meal"
                     >
                       {/* Manage-request icon */}
                       <DiGitPullRequest className="my-1.5 inline-block size-5" />
@@ -202,7 +202,7 @@ const DashBoard = () => {
                     <Link
                       to="/dashboard/create-meal"
                       className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="Settings"
+                      data-tip="Create Meal"
                     >
                       {/* create-meal icon */}
                       <MdCreateNewFolder className="my-1.5 inline-block size-5" />
@@ -217,7 +217,7 @@ const DashBoard = () => {
                     <Link
                       to="/dashboard/my-meals"
                       className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="Settings"
+                      data-tip="My Meals"
                     >
                       {/* Manage-request icon */}
                       <MdNoMeals className="my-1.5 inline-block size-5" />
@@ -232,7 +232,7 @@ const DashBoard = () => {
                     <Link
                       to="/dashboard/order-request"
                       className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-                      data-tip="Settings"
+                      data-tip="Order Request"
                     >
                       {/* Manage-request icon */}
                       <DiGitPullRequest className="my-1.5 inline-block size-5" />

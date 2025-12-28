@@ -20,7 +20,7 @@ const MyOrders = () => {
   });
 
   useEffect(() => {
-      fetch("http://localhost:3000/orders")
+      fetch("https://local-chef-bazaar-server-eta.vercel.app/orders")
         .then(res => res.json())
         .then(data => {
           setOrders(data);

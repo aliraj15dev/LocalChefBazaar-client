@@ -20,7 +20,7 @@ const MealDetails = () => {
 
   useEffect(() => {
 
-    fetch(`http://localhost:3000/dailymeals/${id}`)
+    fetch(`https://local-chef-bazaar-server-eta.vercel.app/dailymeals/${id}`)
       .then(res => res.json())
       .then(data => {
         setMeal(data);
@@ -29,7 +29,7 @@ const MealDetails = () => {
   }, [id]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/reviews/${id}`)
+    fetch(`https://local-chef-bazaar-server-eta.vercel.app/reviews/${id}`)
       .then(res => res.json())
       .then(data => setReviews(data));
   }, [id]);
@@ -46,7 +46,7 @@ const MealDetails = () => {
       date: new Date().toISOString(),
     };
 
-    fetch("http://localhost:3000/reviews", {
+    fetch("https://local-chef-bazaar-server-eta.vercel.app/reviews", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(newReview),
@@ -75,7 +75,7 @@ const MealDetails = () => {
       addedTime: new Date().toISOString(),
     };
 
-    fetch("http://localhost:3000/favorites", {
+    fetch("https://local-chef-bazaar-server-eta.vercel.app/favorites", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(favoriteData),

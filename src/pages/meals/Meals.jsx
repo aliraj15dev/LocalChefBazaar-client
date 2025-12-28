@@ -1,21 +1,39 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Meals = () => {
 
   const [meals, setMeals] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure()
+  
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
-    fetch("http://localhost:3000/DailyMeals")
-      .then((res) => res.json())
-      .then((data) => setMeals(data));
-  }, []);
+    axiosSecure.get("/dailyMeals")
+      .then(res => {
+        setMeals(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Meals fetch error:", err);
+        setLoading(false);
+      });
+  }, [axiosSecure]);
 
   const sortedMeals = [...meals].sort((a, b) =>
     sortOrder === "asc" ? a.price - b.price : b.price - a.price
   );
 
+
+  if (loading) {
+    return (
+      <div className="text-center py-20">
+        <span className="loading loading-spinner loading-lg text-primary"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-10">

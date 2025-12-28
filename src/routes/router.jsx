@@ -14,6 +14,8 @@ import Profile from "../pages/dashboard/Profile";
 import ErrorPage from "../components/ErrorPage";
 import UserManagement from "../pages/userManagement/UserManagement";
 import AdminRoute from "./AdminRoute";
+import ManageRequest from "../pages/dashboard/adminDashboard/ManageRequest";
+import PlatformStatistics from "../pages/dashboard/adminDashboard/PlatformStatistics";
 
 export const router = createBrowserRouter([
   {
@@ -38,6 +40,8 @@ export const router = createBrowserRouter([
       {path:'my-orders', Component:MyOrders},
       {path:'profile', Component:Profile},
       {path:'user-management', element:<AdminRoute><UserManagement/></AdminRoute>},
+      {path:'manage-request', Component:ManageRequest},
+      {path:'platform-statistics', Component:PlatformStatistics},
 
 
     ],

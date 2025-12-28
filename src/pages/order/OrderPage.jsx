@@ -34,7 +34,7 @@ const OrderPage = () => {
           orderTime: new Date().toISOString(),
         };
 
-        fetch("http://localhost:3000/orders", {
+        fetch("https://local-chef-bazaar-server-eta.vercel.app/orders", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(orderData),

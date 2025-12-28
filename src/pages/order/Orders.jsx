@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
+import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const axiosSecure = useAxiosSecure()
 
   useEffect(() => {
-    fetch("http://localhost:3000/orders")
-      .then(res => res.json())
-      .then(data => {
-        setOrders(data);
+    axiosSecure.get("/dailyMeals")
+      .then(res => {
+        setOrders(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Daily meals fetch error:", err);
         setLoading(false);
       });
-  }, []);
+  }, [axiosSecure]);
 
   if (loading) {
     return (
