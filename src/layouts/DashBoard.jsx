@@ -96,7 +96,7 @@ const DashBoard = () => {
                 >
                   {/* profile icon */}
                   <CgProfile className="my-1.5 inline-block size-5" />
-                  <span className="is-drawer-close:hidden">Profile</span>
+                  <span className="is-drawer-close:hidden">My Profile</span>
                 </Link>
               </li>
 

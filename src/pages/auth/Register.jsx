@@ -25,50 +25,97 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const handleRegister = (data) => {
-    const profileImg = data.photourl[0];
-    console.log(data.photourl)
+  // const handleRegister = (data) => {
+  //   const profileImg = data.photourl[0];
 
-    createUser(data.email, data.password)
-      .then(() => {
-        navigate(location?.state || "/");
-        //* 1. store the image
-        const formData = new FormData();
-        formData.append("image", profileImg);
+  //   createUser(data.email, data.password)
+  //     .then(() => {
+  //       navigate(location?.state || "/");
+  //       //* 1. store the image
+  //       const formData = new FormData();
+  //       formData.append("image", profileImg);
 
-        //* 2. sent the image and get the url
-        const image_API_URL = `https://api.imgbb.com/1/upload?key=${
-          import.meta.env.VITE_PHOTO_KEY
-        }`;
+  //       //* 2. sent the image and get the url
+  //       const image_API_URL = `https://api.imgbb.com/1/upload?key=${
+  //         import.meta.env.VITE_PHOTO_KEY
+  //       }`;
 
-        axios.post(image_API_URL, formData).then((res) => {
+  //       axios.post(image_API_URL, formData).then((res) => {
 
-          const userInfo = {
-            email:data.email,
-            displayName: data.name,
-            photoURL: res.data.data.display_url
-          }
+  //         const userInfo = {
+  //           email:data.email,
+  //           displayName: data.name,
+  //           photoURL: res.data.data.display_url
+  //         }
 
-        axiosSecure.post('/users', userInfo)
-        .then()
+  //       axiosSecure.post('/users', userInfo)
+  //       .then()
 
-          //* update the profile
-          const updateProfile = {
-            displayName: data.name,
-            photoURL: res.data.data.display_url
-          };
-          updateUserProfile(updateProfile)
-            .then()
-            .catch((error) => {
-              console.log(error);
-            });
-        });
+  //         //* update the profile
+  //         const updateProfile = {
+  //           displayName: data.name,
+  //           photoURL: res.data.data.display_url
+  //         };
+  //         updateUserProfile(updateProfile)
+  //           .then()
+  //           .catch((error) => {
+  //             console.log(error);
+  //           });
+  //       });
 
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
+
+  const handleRegister = async (data) => {
+  try {
+    // 1️⃣ Create Firebase user
+    const result = await createUser(data.email, data.password);
+
+    let imageURL = "";
+
+    // 2️⃣ Upload image (optional)
+    if (data.photourl?.length > 0) {
+      const formData = new FormData();
+      formData.append("image", data.photourl[0]);
+
+      const image_API_URL = `https://api.imgbb.com/1/upload?key=${
+        import.meta.env.VITE_PHOTO_KEY
+      }`;
+
+      const imgRes = await axios.post(image_API_URL, formData);
+      imageURL = imgRes.data.data.display_url;
+    }
+
+    // 3️⃣ Update Firebase profile
+    await updateUserProfile({
+      displayName: data.name,
+      photoURL: imageURL,
+    });
+
+    // 4️⃣ Save user to MongoDB
+    const userInfo = {
+      name: data.name,
+      email: data.email,
+      photoURL: imageURL,
+      role: "user",
+      status: "active",
+      createdAt: new Date().toISOString(),
+    };
+
+    const dbRes = await axiosSecure.post("/users", userInfo);
+    console.log("DB Response:", dbRes.data);
+
+    // 5️⃣ Navigate AFTER everything success
+    navigate(location?.state || "/");
+
+  } catch (error) {
+    console.error("Register Error:", error);
+  }
+};
+
 
   return (
     <div className="my-20 card flex justify-center items-center">
