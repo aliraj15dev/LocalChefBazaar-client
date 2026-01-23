@@ -11,7 +11,6 @@ const Profile = () => {
   const [showModal, setShowModal] = useState(false);
   const [requestType, setRequestType] = useState("");
 
-  // 🔹 Load all users
   const { data: users = [], isLoading } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
@@ -40,7 +39,6 @@ const Profile = () => {
     address,
   } = currentUser;
 
-  // 🔹 Submit role request
   const handleSubmitRequest = async () => {
     const requestData = {
       userName: displayName,
@@ -75,7 +73,6 @@ const Profile = () => {
     <div className="max-w-3xl mx-auto py-10 px-4">
       <div className="bg-white shadow-lg rounded-lg p-6 space-y-4">
 
-        {/* 🔹 User Info */}
         <div className="flex items-center gap-4">
           <img
             src={photoURL}
@@ -88,7 +85,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* 🔹 User Details */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
           <p><b>Address:</b> {address || "Not added"}</p>
           <p><b>Role:</b> {role}</p>
@@ -104,7 +100,6 @@ const Profile = () => {
           )}
         </div>
 
-        {/* 🔹 Action Buttons */}
         <div className="flex gap-3 pt-4">
           {role === "user" && (
             <>
@@ -144,7 +139,6 @@ const Profile = () => {
         </div>
       </div>
 
-      {/* 🔹 Modal Form */}
       {showModal && (
         <dialog className="modal modal-open">
           <div className="modal-box">

@@ -7,7 +7,7 @@ const Orders = () => {
   const axiosSecure = useAxiosSecure()
 
   useEffect(() => {
-    axiosSecure.get("/dailyMeals")
+    axiosSecure.get("/orders")
       .then(res => {
         setOrders(res.data);
         setLoading(false);
@@ -28,7 +28,7 @@ const Orders = () => {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-6 text-center">📦 My Orders</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center">📦 My Orders {orders.length}</h2>
 
       {orders.length === 0 ? (
         <p className="text-center text-gray-500">No orders found</p>

@@ -7,7 +7,7 @@ const Meals = () => {
   const [meals, setMeals] = useState([]);
   const [loading, setLoading] = useState(true);
   const axiosSecure = useAxiosSecure()
-  
+
   const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const Meals = () => {
                 <p>⭐ Rating: {meal.rating}</p>
               </div>
 
-              <p>📍 Area: {meal.deliveryArea}</p>
+              <p>📍 Delivery Area: {meal.deliveryArea}</p>
 
               <Link to={`/MealDetails/${meal._id}`}
                 className="btn btn-primary w-full mt-3"
