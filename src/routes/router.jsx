@@ -17,6 +17,7 @@ import AdminRoute from "./AdminRoute";
 import ManageRequest from "../pages/dashboard/adminDashboard/ManageRequest";
 import PlatformStatistics from "../pages/dashboard/adminDashboard/PlatformStatistics";
 import FavouriteMeal from "../pages/dashboard/FavouriteMeal";
+import MyReviews from "../pages/dashboard/userDashBoard/MyReviews";
 
 export const router = createBrowserRouter([
   {
@@ -40,7 +41,9 @@ export const router = createBrowserRouter([
     children: [
       {path:'my-orders', Component:MyOrders},
       {path:'profile', Component:Profile},
+      {path:'my-review', Component:MyReviews},
       {path:'favourite-meal', Component:FavouriteMeal},
+      
       {path:'user-management', element:<AdminRoute><UserManagement/></AdminRoute>},
       {path:'manage-request', Component:ManageRequest},
       {path:'platform-statistics', Component:PlatformStatistics},

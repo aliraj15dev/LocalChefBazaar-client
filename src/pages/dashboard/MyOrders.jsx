@@ -3,7 +3,6 @@ import useAuth from "../../hooks/useAuth";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 import { useEffect, useState } from "react";
 
-
 const MyOrders = () => {
   const { user } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -20,31 +19,33 @@ const MyOrders = () => {
   });
 
   useEffect(() => {
-      fetch("https://local-chef-bazaar-server-eta.vercel.app/orders")
-        .then(res => res.json())
-        .then(data => {
-          setOrders(data);
-          setLoading(false);
-        });
-    }, [axiosSecure]);
+    axiosSecure
+    .get("/orders")
+    .then((res) => {
+      setOrders(res.data);
+      setLoading(false);
+    });
+  }, [axiosSecure]);
 
-    if (loading) {
-      return (
-        <div className="text-center py-20">
-          <span className="loading loading-spinner loading-lg"></span>
-        </div>
-      );
-    }
+  if (loading) {
+    return (
+      <div className="text-center py-20">
+        <span className="loading loading-spinner loading-lg"></span>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold mb-6 text-center">📦 My Orders : {parcels.length}</h2>
+      <h2 className="text-3xl font-bold mb-6 text-center">
+        📦 My Orders : {parcels.length}
+      </h2>
 
       {orders.length === 0 ? (
         <p className="text-center text-gray-500">No orders found</p>
       ) : (
         <div className="grid md:grid-cols-2 gap-6">
-          {orders.map(order => (
+          {orders.map((order) => (
             <div
               key={order._id}
               className="bg-white shadow-lg rounded-lg p-5 space-y-2 border"
