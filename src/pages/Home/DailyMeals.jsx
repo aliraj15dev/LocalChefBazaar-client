@@ -9,7 +9,7 @@ const DailyMeals = () => {
   const axiosSecure = useAxiosSecure()
 
   useEffect(() => {
-    axiosSecure.get("/dailyMeals")
+    axiosSecure.get("/dailymeals")
       .then(res => {
         setMeals(res.data);
         setLoading(false);

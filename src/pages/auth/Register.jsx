@@ -1,121 +1,79 @@
 import { useForm } from "react-hook-form";
 import { Link, useLocation, useNavigate } from "react-router";
-import { use, useState } from "react";
+import { useContext, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import useAxiosSecure from "../../hooks/useAxiosSecure";
 
 const Register = () => {
-  const { createUser, updateUserProfile } = use(AuthContext);
-  const location = useLocation();
-  const navigate = useNavigate();
-  const axiosSecure = useAxiosSecure()
-
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleShowPassword = (e) => {
-    e.preventDefault();
-    setShowPassword(!showPassword);
-  };
-
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  // const handleRegister = (data) => {
-  //   const profileImg = data.photourl[0];
+  const { createUser, updateUserProfile } = useContext(AuthContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
 
-  //   createUser(data.email, data.password)
-  //     .then(() => {
-  //       navigate(location?.state || "/");
-  //       //* 1. store the image
-  //       const formData = new FormData();
-  //       formData.append("image", profileImg);
+  const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  //       //* 2. sent the image and get the url
-  //       const image_API_URL = `https://api.imgbb.com/1/upload?key=${
-  //         import.meta.env.VITE_PHOTO_KEY
-  //       }`;
-
-  //       axios.post(image_API_URL, formData).then((res) => {
-
-  //         const userInfo = {
-  //           email:data.email,
-  //           displayName: data.name,
-  //           photoURL: res.data.data.display_url
-  //         }
-
-  //       axiosSecure.post('/users', userInfo)
-  //       .then()
-
-  //         //* update the profile
-  //         const updateProfile = {
-  //           displayName: data.name,
-  //           photoURL: res.data.data.display_url
-  //         };
-  //         updateUserProfile(updateProfile)
-  //           .then()
-  //           .catch((error) => {
-  //             console.log(error);
-  //           });
-  //       });
-
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // };
+  const handleShowPassword = (e) => {
+    e.preventDefault();
+    setShowPassword(!showPassword);
+  };
 
   const handleRegister = async (data) => {
-  try {
-    // 1️⃣ Create Firebase user
-    const result = await createUser(data.email, data.password);
+    try {
+      setLoading(true);
 
-    let imageURL = "";
+      const profileImg = data.photourl?.[0];
+      if (!profileImg) {
+        alert("Please upload a photo");
+        return;
+      }
 
-    // 2️⃣ Upload image (optional)
-    if (data.photourl?.length > 0) {
+      await createUser(data.email, data.password);
+
       const formData = new FormData();
-      formData.append("image", data.photourl[0]);
+      formData.append("image", profileImg);
 
       const image_API_URL = `https://api.imgbb.com/1/upload?key=${
         import.meta.env.VITE_PHOTO_KEY
       }`;
 
       const imgRes = await axios.post(image_API_URL, formData);
-      imageURL = imgRes.data.data.display_url;
+      const photoURL = imgRes.data.data.url;
+
+      const userInfo = {
+        email: data.email,
+        displayName: data.name,
+        photoURL,
+      };
+
+      const dbRes = await axiosSecure.post("/users", userInfo);
+
+      if (!dbRes.data.acknowledged) {
+        throw new Error("Database insert failed");
+      }
+
+      await updateUserProfile({
+        displayName: data.name,
+        photoURL,
+      });
+
+      console.log("✅ User registered successfully");
+      navigate(location.state || "/");
+    } catch (error) {
+      console.error("❌ Registration failed:", error);
+      alert("Registration failed. Check console.");
+    } finally {
+      setLoading(false);
     }
-
-    // 3️⃣ Update Firebase profile
-    await updateUserProfile({
-      displayName: data.name,
-      photoURL: imageURL,
-    });
-
-    // 4️⃣ Save user to MongoDB
-    const userInfo = {
-      name: data.name,
-      email: data.email,
-      photoURL: imageURL,
-      role: "user",
-      status: "active",
-      createdAt: new Date().toISOString(),
-    };
-
-    const dbRes = await axiosSecure.post("/users", userInfo);
-    console.log("DB Response:", dbRes.data);
-
-    // 5️⃣ Navigate AFTER everything success
-    navigate(location?.state || "/");
-
-  } catch (error) {
-    console.error("Register Error:", error);
-  }
-};
-
+  };
 
   return (
     <div className="my-20 card flex justify-center items-center">
@@ -124,6 +82,7 @@ const Register = () => {
           <h2 className="text-4xl text-center font-bold">Create an Account</h2>
           <p className="text-center text-xl">Register with LocalChefBazar</p>
         </div>
+
         <form
           onSubmit={handleSubmit(handleRegister)}
           className="mt-5 card-body"
@@ -136,9 +95,7 @@ const Register = () => {
               className="input outline-none"
               placeholder="Your Name"
             />
-            {errors.name?.type === "required" && (
-              <p className="text-red-500">Name is Required</p>
-            )}
+            {errors.name && <p className="text-red-500">Name is Required</p>}
 
             <label className="label text-black font-bold text-lg">Photo</label>
             <input
@@ -154,9 +111,7 @@ const Register = () => {
               className="input outline-none"
               placeholder="Email"
             />
-            {errors.email?.type === "required" && (
-              <p className="text-red-500">Email is Required</p>
-            )}
+            {errors.email && <p className="text-red-500">Email is Required</p>}
 
             <label className="label text-black font-bold text-lg">
               Password
@@ -175,28 +130,33 @@ const Register = () => {
               />
               <button
                 onClick={handleShowPassword}
-                className="absolute top-2 right-6 z-11 text-2xl"
+                className="absolute top-2 right-6 text-2xl"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
             </div>
+
             {errors.password?.type === "required" && (
               <p className="text-red-500">Password is Required</p>
             )}
             {errors.password?.type === "minLength" && (
               <p className="text-red-500">
-                Password must be at least 6 character
+                Password must be at least 6 characters
               </p>
             )}
             {errors.password?.type === "pattern" && (
               <p className="text-red-500">
-                Password must contain a lowerCase, UpperCase & Number
+                Password must contain Uppercase, Lowercase, Number & Symbol
               </p>
             )}
 
-            <button className="btn btn-primary  text-black font-bold text-lg mt-4">
-              Register
+            <button
+              disabled={loading}
+              className="btn btn-primary text-black font-bold text-lg mt-4"
+            >
+              {loading ? "Registering..." : "Register"}
             </button>
+
             <p className="mt-3 text-xl">
               Already have an account?{" "}
               <Link
